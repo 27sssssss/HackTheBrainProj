@@ -1,13 +1,12 @@
 import pandas as pd
 import os
+
 from typing import List, Dict
 
 def parse_emdat_excel_local(filepath: str) -> List[Dict]:
-    df = pd.read_excel(filepath)  # <-- читаем как Excel
+    df = pd.read_excel(filepath) 
+    print("📌 New columns:", df.columns.tolist())
 
-    print("📌 Найденные колонки:", df.columns.tolist())
-
-    # Переименуем для унификации
     df = df.rename(columns={
         "Start Year": "Year",
         "Total Affected": "Affected"
@@ -23,9 +22,15 @@ def parse_emdat_excel_local(filepath: str) -> List[Dict]:
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(__file__)
-    path = "241204_emdat_columns.xlsx"
+    path = os.path.join(current_dir, 'LSTM', 'data', 'events.json')
 
     events = parse_emdat_excel_local(path)
 
     for e in events:
         print(e, ',')
+
+    output_path = os.path.join(current_dir, 'LSTM', 'data', 'events.json')
+    with open(output_path, 'w', encoding='utf-8') as f:
+        json.dump(events, f, ensure_ascii=False, indent=4)
+
+    print(f"✅ Saved {len(events)} events to {output_path}")

@@ -1,10 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from datetime import datetime
+import os
+import json
 
 from utils.nasa_power_loader import fetch_nasa_power_data
 from extractor import get_data_disasters
 from utils.gdacs_data_loader import fetch_gdacs_events
+from utils.emdat import parse_emdat_excel_local
 
 app = FastAPI()
 app.add_middleware(
@@ -22,6 +26,16 @@ def read_disasters():
 @app.get("/gdacs")
 def gdacs_api():
     return fetch_gdacs_events()
+
+@app.get("/emdat")
+def emdat_data():
+    current_dir = os.path.dirname(__file__)
+    path = os.path.join(current_dir,'utils', 'LSTM', 'data', 'events.json')
+
+    with open(path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    return JSONResponse(content=data)
 
 @app.get("/nasa")
 def nasa_api():
