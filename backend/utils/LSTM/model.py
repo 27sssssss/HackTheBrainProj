@@ -31,19 +31,19 @@ def update_model(csv_path):
     X, y = prepare_data(csv_path)
 
     if os.path.exists(MODEL_PATH):
-        print("📦 Loading model...")
+        print("Loading model...")
         model = load_model(MODEL_PATH)
     else:
-        print("🧠 Creating LSTM model...")
+        print("Creating LSTM model...")
         model = Sequential()
         model.add(LSTM(64, input_shape=(X.shape[1], X.shape[2])))
         model.add(Dense(1, activation='sigmoid'))
         model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-    print("🔁 Feeding...")
+    print("Feeding...")
     model.fit(X, y, epochs=2, batch_size=32, verbose=1)
 
-    print("💾 Saving model...")
+    print("Saving model...")
     model.save(MODEL_PATH)
 
 
