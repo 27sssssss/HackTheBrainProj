@@ -1,4 +1,4 @@
-from extractor import get_data_disasters
+from backend.extractor import get_data_disasters
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
