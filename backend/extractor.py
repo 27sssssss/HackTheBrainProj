@@ -1,6 +1,6 @@
 import feedparser
 def get_data_disasters():
-    url = "https://www.gdacs.org/xml/rss.xml" #url from where we take info
+    url = "https://www.gdacs.org/xml/rss.xml" 
     feed = feedparser.parse(url)
     results = []
     for entry in feed.entries[:15]:
