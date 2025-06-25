@@ -1,0 +1,48 @@
+import React, { useEffect, useRef } from 'react';
+import Globe from 'globe.gl';
+
+const disasterLocations = [
+  { date: '2025-06-23T00:00:00', event_type: 'Wildfire', color: '#CC0000', severity: 'Orange', lat: 38.3927, lng: 26.1153 },
+  { date: '2025-06-22T00:00:00', event_type: 'Drought', color: '#9933FF', severity: 'Orange', lat: -12.854, lng: -48.14 },
+  { date: '2025-06-20T03:00:00', event_type: 'Tropical Cyclone', color: '#00CCCC', severity: 'Red', lat: 18.0, lng: -100.8 },
+  { date: '2025-06-17T09:45:00', event_type: 'Volcano', color: '#FF9933', severity: 'Orange', lat: -8.542, lng: 122.775 },
+  { date: '2025-06-08T13:08:06', event_type: 'Earthquake', color: '#FF3333', severity: 'Orange', lat: 4.5125, lng: -73.1444 },
+  // ... и остальные
+];
+
+const DisasterGlobe = () => {
+  const globeRef = useRef();
+
+  useEffect(() => {
+    const world = Globe()(globeRef.current)
+      .globeImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/earth-dark.jpg')
+      .backgroundColor('#000')
+      .labelLat(d => d.lat)
+      .labelLng(d => d.lng)
+      .labelText(d => d.event_type)
+      .labelSize(3)
+      .labelDotRadius(0.7)
+      .labelColor(d => d.color)
+      .labelsData(disasterLocations);
+
+    fetch('/ne_110m_admin_0_countries.geojson')
+      .then(res => res.json())
+      .then(countries => {
+        world
+          .hexPolygonsData(countries.features)
+          .hexPolygonResolution(3)
+          .hexPolygonMargin(0.3)
+          .hexPolygonUseDots(true)
+          .hexPolygonColor(() => '#444');
+      })
+      .catch(err => console.error("GeoJSON load error:", err));
+  }, []);
+
+  return (
+    <div className="frame" style={{ width: '100%', height: '100vh' }}>
+      <div ref={globeRef} style={{ width: '100%', height: '100%' }} />
+    </div>
+  );
+};
+
+export default DisasterGlobe;
