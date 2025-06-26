@@ -13,8 +13,8 @@ import ChatBot from '../components/ChatBotMenu.jsx';
 import Logo from '../assets/ourlogo.svg'
 
 const textures = {
-  day: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg',
-  night: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg',
+  day: '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-dark.jpg', 
+  night: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg',
   topo: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png'
 }
 
@@ -110,6 +110,9 @@ const DisasterGlobe = () => {
     worldRef.current.labelsData(filtered);
   }, [disasters, activeTypes]);
 
+    useEffect(() => {
+      applyEarthSkin(currentSkin);
+  }, [currentSkin]);
 
   return (
 
@@ -160,7 +163,7 @@ const DisasterGlobe = () => {
         }}
     >
     <div style={{display:'flex', flexDirection:'row', justifyContent:'space-evenly', alignItems:'center'}}>
-      <BasicButton>
+      <BasicButton onClick={() => setCurrentSkin(changeSkin(currentSkin))}>
         <img
         src={Rain}
         alt="Rain icon"
