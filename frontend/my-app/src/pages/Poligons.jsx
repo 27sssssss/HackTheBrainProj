@@ -11,6 +11,13 @@ import Controller from '../components/Controller.jsx'
 import BurgerMenu from '../components/BurgerMenu.jsx';
 import ChatBot from '../components/ChatBotMenu.jsx';
 import Logo from '../assets/ourlogo.svg'
+
+const textures = {
+  day: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg',
+  night: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg',
+  topo: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png'
+}
+
 const disasterLocations = [
   { date: '2025-06-23T00:00:00', event_type: 'Wildfire', color: '#CC0000', severity: 'Orange', lat: 38.3927, lng: 26.1153 },
   { date: '2025-06-22T00:00:00', event_type: 'Drought', color: '#9933FF', severity: 'Orange', lat: -12.854, lng: -48.14 },
@@ -22,7 +29,10 @@ const disasterLocations = [
 const DisasterGlobe = () => {
   const [disasters, setDisasters] = useState([]);
 
+  const [currentSkin, setCurrentSkin] = useState('day');
+
   const [disastersList, setDisastersList] = useState(false);
+
   const toggleDisasters = () => setDisastersList(prev => !prev)
   const [activeTypes, setActiveTypes] = useState([
     'Wildfire', 'Drought', 'Tropical Cyclone', 'Volcano', 'Earthquake'
@@ -31,6 +41,18 @@ const DisasterGlobe = () => {
   const handleToggle = (updatedList) => {
     const enabled = updatedList.filter(d => d.active).map(d => d.name);
     setActiveTypes(enabled);
+  };
+
+  const changeSkin = (current) => {
+    const keys = Object.keys(textures);
+    const nextIndex = (keys.indexOf(current) + 1) % keys.length;
+    return keys[nextIndex];
+  };
+  const applyEarthSkin = (skinKey) => {
+    const texture = textures[skinKey];
+    if (worldRef.current && texture) {
+      worldRef.current.globeImageUrl(texture);
+    }
   };
 
   const mockAnswer = (question, callback) => {
