@@ -22,7 +22,7 @@ def parse_emdat_excel_local(filepath: str) -> List[Dict]:
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(__file__)
-    path = os.path.join(current_dir, 'LSTM', 'data', 'events.json')
+    path = os.path.join(current_dir, 'LSTM', 'data', '241204_emdat_archive.xlsx')
 
     events = parse_emdat_excel_local(path)
 
@@ -33,4 +33,4 @@ if __name__ == "__main__":
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(events, f, ensure_ascii=False, indent=4)
 
-    print(f"✅ Saved {len(events)} events to {output_path}")
+    print(f"Saved {len(events)} events to {output_path}")
