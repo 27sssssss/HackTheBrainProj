@@ -10,6 +10,9 @@ const ChatBot = ({ onSend }) => {
     if (!input.trim()) return;
     const userMessage = { role: 'user', text: input };
     setMessages([...messages, userMessage]);
+    const loadOfMessage = {role: 'bot', text: 'Thinking...'};
+    setMessages(prev => [...prev, loadOfMessage]);
+    
     onSend?.(input, (botResponse) => {
       setMessages((prev) => [...prev, { role: 'bot', text: botResponse }]);
     });

@@ -56,8 +56,9 @@ const DisasterGlobe = () => {
   };
 
   const mockAnswer = (question, callback) => {
-    if (question.toLowerCase().includes('earthquake')) {
-      callback('There have been recent earthquakes in Chile and Japan.');
+    if (question.toLowerCase().includes('china')) {
+      
+      callback('A flood occurred in China on June 25, 2025, affecting Gansu and Guangxi provinces. Heavy rains led to river overflows, evacuations of over 80,000 people, and severe infrastructure damage.');
     } else {
       callback("I'm not sure. Try asking about a specific disaster.");
     }

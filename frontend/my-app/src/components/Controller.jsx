@@ -13,7 +13,7 @@ const initialDisasters = [
   { id: 'hurricanes', name: 'Tropical Cyclone', icon: HurricaneIcon, active: true },
   { id: 'tsunamis', name: 'Tsunami', icon: TsunamiIcon, active: true },
   { id: 'volcanoes', name: 'Volcano', icon: VolcanoIcon, active: false },
-  { id: 'floods', name: 'Flood', icon: FloodIcon, active: true },
+  { id: 'floods', name: 'Flood', icon: FloodIcon, active: false },
   { id: 'wildfires', name: 'Wildfire', icon: ForestFireIcon, active: true },
   { id: 'droughts', name: 'Drought', icon: DroughtIcon, active: true },
   { id: 'avalanches', name: 'Avalanche', icon: AvalancheIcon, active: false },
