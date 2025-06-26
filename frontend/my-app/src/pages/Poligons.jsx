@@ -21,12 +21,26 @@ const disasterLocations = [
 
 
 const DisasterGlobe = () => {
+  const [disasters, setDisasters] = useState([]);
+
   const [disastersList, setDisastersList] = useState(false);
   const toggleDisasters = () => setDisastersList(prev => !prev)
 
   const globeRef = useRef();
 
   useEffect(() => {
+    fetch('http://127.0.0.1:8000/gdacs')
+    .then(res => res.json())
+    .then(data => {
+      console.log('GDACS raw data:', data);
+      setDisasters(data)})
+    .catch(err => console.log('Error loading Data from gdacs', err))
+  }, [])
+
+  useEffect(() => {
+    if (disasters.length === 0){
+      return
+    }
     const world = Globe()(globeRef.current)
       .globeImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/earth-dark.jpg')
       .backgroundImageUrl(Stars)
@@ -35,10 +49,11 @@ const DisasterGlobe = () => {
       .labelLng(d => d.lng)
       .labelText(d => d.event_type)
       .labelSize(3)
-      .labelDotRadius(0.7)
+      .labelDotRadius(0.5)
       .labelColor(d => d.color)
-      .labelsData(disasterLocations);
-      console.log("Rain:", Rain);
+      .labelsData(disasters);
+      console.log('123')
+      console.log(disasters)
     fetch(CountryGeoJson)
       .then(res => res.json())
       .then(countries => {
@@ -50,7 +65,7 @@ const DisasterGlobe = () => {
           .hexPolygonColor(() => '#444');
       })
       .catch(err => console.error("GeoJSON load error:", err));
-  }, []);
+  }, [disasters]);
 
   return (
     <div className="frame" style={{ width: '100%', height: '100vh', position:'relative' }}>
@@ -85,7 +100,7 @@ const DisasterGlobe = () => {
           transition: 'opacity 0.3s ease, transform 0.3s ease',
           opacity: disastersList ? 1 : 0,
           transform: disastersList ? 'translateY(0)' : 'translateY(-20px)',
-          pointerEvents: disastersList ? 'auto' : 'none' // чтобы не кликался в скрытом виде
+          pointerEvents: disastersList ? 'auto' : 'none'
         }}
       >
     <Controller />
