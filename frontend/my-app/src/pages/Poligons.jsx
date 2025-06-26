@@ -9,7 +9,8 @@ import Rain from '../assets/earthdisaster.svg'
 import BasicButton from '../components/Button.jsx'
 import Controller from '../components/Controller.jsx'
 import BurgerMenu from '../components/BurgerMenu.jsx';
-
+import ChatBot from '../components/ChatBotMenu.jsx';
+import Logo from '../assets/ourlogo.svg'
 const disasterLocations = [
   { date: '2025-06-23T00:00:00', event_type: 'Wildfire', color: '#CC0000', severity: 'Orange', lat: 38.3927, lng: 26.1153 },
   { date: '2025-06-22T00:00:00', event_type: 'Drought', color: '#9933FF', severity: 'Orange', lat: -12.854, lng: -48.14 },
@@ -32,6 +33,15 @@ const DisasterGlobe = () => {
     setActiveTypes(enabled);
   };
 
+  const mockAnswer = (question, callback) => {
+    if (question.toLowerCase().includes('earthquake')) {
+      callback('There have been recent earthquakes in Chile and Japan.');
+    } else {
+      callback("I'm not sure. Try asking about a specific disaster.");
+    }
+  };
+  
+  
   const globeRef = useRef();
   const worldRef = useRef(null);
   useEffect(() => {
@@ -80,7 +90,37 @@ const DisasterGlobe = () => {
 
 
   return (
+
+
     <div className="frame" style={{ width: '100%', height: '100vh', position:'relative' }}>
+      <div 
+          style={{
+          width:'300px',
+          position: 'absolute',
+          top: '40px',
+          left: '10%',
+          transform: 'translateX(-50%)',
+          color: 'white',
+          fontSize: '3rem',
+          fontWeight: 'bold',
+          zIndex: 10,
+          display:'flex',
+          flexDirection:'column',
+          justifyContent:'space-evenly',
+        }}>
+        <img
+        src={Logo}
+        alt="Rain icon"
+        style={{ width: '100%', height: '100%' }}
+      />
+      </div>
+      <div 
+      style={{position:'fixed',
+        bottom:-130, right: 20, color:'#fff', borderRadius: 10, padding: 10, zIndex: 9999
+      }}>
+        <ChatBot onSend={mockAnswer} />
+      </div>
+
       <div
         style={{
           width:'300px',

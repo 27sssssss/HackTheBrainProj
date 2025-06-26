@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# How to start app
+1. Open your terminal.
+2. Navigate to the frontend app directory:
+    cd frontend/my-app
+3. Install all required dependencies: 
+    npm install
+4. Start the development server: 
+    npm start
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
