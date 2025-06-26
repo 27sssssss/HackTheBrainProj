@@ -2,45 +2,45 @@ from mml_forcast import load_data, create_features, preprocess, train_models, pr
 import pandas as pd
 
 def run_interface():
-    print("=== Welcome to Weather Predictor Interface ===\n")
+    print("=== Welcome to the Weather Predictor Interface ===\n")
     
     filepath = "weather.csv"
     
     try:
-        # 1. Загрузка данных
+        # 1. Load data
         df = load_data(filepath)
     except FileNotFoundError:
-        print(f"Error: Файл '{filepath}' не найден. Убедитесь, что он находится в той же директории.")
+        print(f"Error: File '{filepath}' not found. Make sure it's in the same directory.")
         return
 
-    # 2. Создание признаков
+    # 2. Create features
     df = create_features(df)
 
-    # 3. Предобработка
+    # 3. Preprocessing
     X_scaled, y, scaler = preprocess(df)
 
-    # 4. Обучение моделей
+    # 4. Train models
     lr_model, rf_model = train_models(X_scaled, y)
 
-    print("\nМодель успешно обучена. Готов к предсказаниям!\n")
+    print("\nThe model has been trained successfully. Ready to make predictions!\n")
 
-    # 5. Пользовательский ввод
+    # 5. User input loop
     while True:
-        answer = input("\nХотите предсказать температуру для новой даты? (yes/no): ").strip().lower()
+        answer = input("\nWould you like to predict the temperature for a new date? (yes/no): ").strip().lower()
         if answer != 'yes':
-            print("Выход из программы. Спасибо за использование.")
+            print("Exiting the program. Thank you for using the Weather Predictor.")
             break
 
         try:
-            # Ввод параметров
-            humidity = float(input("Введите влажность (в %): "))
-            pressure = float(input("Введите давление (в hPa): "))
-            wind_speed = float(input("Введите скорость ветра (м/с): "))
-            month = int(input("Введите номер месяца (1-12): "))
-            day = int(input("Введите день месяца (1-31): "))
-            weekday = int(input("Введите день недели (0 — Пн, 6 — Вс): "))
+            # User input
+            humidity = float(input("Enter humidity (%): "))
+            pressure = float(input("Enter pressure (hPa): "))
+            wind_speed = float(input("Enter wind speed (m/s): "))
+            month = int(input("Enter month number (1-12): "))
+            day = int(input("Enter day of the month (1-31): "))
+            weekday = int(input("Enter weekday number (0 = Mon, 6 = Sun): "))
 
-            # Создание DataFrame для предсказания
+            # Create DataFrame for prediction
             user_sample = pd.DataFrame([{
                 'humidity': humidity,
                 'pressure': pressure,
@@ -50,15 +50,15 @@ def run_interface():
                 'weekday': weekday
             }])
 
-            # Масштабирование
+            # Scale input
             user_scaled = scaler.transform(user_sample)
 
-            # Предсказание
+            # Make prediction
             prediction = rf_model.predict(user_scaled)
-            print(f"\n🌤 Прогнозируемая температура: {round(prediction[0], 2)} °C")
+            print(f"\n🌤 Predicted temperature: {round(prediction[0], 2)} °C")
 
         except Exception as e:
-            print("Ошибка ввода данных:", e)
+            print("Input error:", e)
             continue
 
 if __name__ == "__main__":
