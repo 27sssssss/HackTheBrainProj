@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="content/horizon.svg" alt="Logo" />
+  <img src="content/horizon.png" alt="Logo" />
 </p>
 <br>
 <br>
