@@ -18,16 +18,36 @@ const disasterLocations = [
   { date: '2025-06-08T13:08:06', event_type: 'Earthquake', color: '#FF3333', severity: 'Orange', lat: 4.5125, lng: -73.1444 },
 ];
 
-
-
 const DisasterGlobe = () => {
+  const [disasters, setDisasters] = useState([]);
+
   const [disastersList, setDisastersList] = useState(false);
   const toggleDisasters = () => setDisastersList(prev => !prev)
+  const [activeTypes, setActiveTypes] = useState([
+    'Wildfire', 'Drought', 'Tropical Cyclone', 'Volcano', 'Earthquake'
+  ]);
+
+  const handleToggle = (updatedList) => {
+    const enabled = updatedList.filter(d => d.active).map(d => d.name);
+    setActiveTypes(enabled);
+  };
 
   const globeRef = useRef();
+  const worldRef = useRef(null);
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/gdacs')
+    .then(res => res.json())
+    .then(data => {
+      console.log('GDACS raw data:', data);
+      setDisasters(data)})
+    .catch(err => console.log('Error loading Data from gdacs', err))
+  }, [])
 
   useEffect(() => {
-    const world = Globe()(globeRef.current)
+    const world = Globe()(globeRef.current);
+    worldRef.current = world;
+
+    world
       .globeImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/earth-dark.jpg')
       .backgroundImageUrl(Stars)
       .backgroundColor('#000')
@@ -35,10 +55,9 @@ const DisasterGlobe = () => {
       .labelLng(d => d.lng)
       .labelText(d => d.event_type)
       .labelSize(3)
-      .labelDotRadius(0.7)
-      .labelColor(d => d.color)
-      .labelsData(disasterLocations);
-      console.log("Rain:", Rain);
+      .labelDotRadius(0.5)
+      .labelColor(d => d.color);
+
     fetch(CountryGeoJson)
       .then(res => res.json())
       .then(countries => {
@@ -48,9 +67,17 @@ const DisasterGlobe = () => {
           .hexPolygonMargin(0.3)
           .hexPolygonUseDots(true)
           .hexPolygonColor(() => '#444');
-      })
-      .catch(err => console.error("GeoJSON load error:", err));
+      });
   }, []);
+  useEffect(() => {
+    if (!worldRef.current) return;
+
+    const filtered = disasters.filter(d =>
+      activeTypes.includes(d.event_type)
+    );
+    worldRef.current.labelsData(filtered);
+  }, [disasters, activeTypes]);
+
 
   return (
     <div className="frame" style={{ width: '100%', height: '100vh', position:'relative' }}>
@@ -85,10 +112,10 @@ const DisasterGlobe = () => {
           transition: 'opacity 0.3s ease, transform 0.3s ease',
           opacity: disastersList ? 1 : 0,
           transform: disastersList ? 'translateY(0)' : 'translateY(-20px)',
-          pointerEvents: disastersList ? 'auto' : 'none' // чтобы не кликался в скрытом виде
+          pointerEvents: disastersList ? 'auto' : 'none'
         }}
       >
-    <Controller />
+    <Controller onToggle={handleToggle} />
 </div>
     </div>
       <div ref={globeRef} style={{ width: '100%', height: '100%' }} />

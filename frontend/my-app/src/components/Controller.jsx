@@ -10,16 +10,17 @@ import TsunamiIcon from '../assets/Tsunami.svg';
 import VolcanoIcon from '../assets/Volcano.svg';
 
 const initialDisasters = [
-  { id: 'hurricanes', name: 'Hurricanes', icon: HurricaneIcon, active: true },
-  { id: 'tsunamis', name: 'Tsunamis', icon: TsunamiIcon, active: true },
-  { id: 'volcanoes', name: 'Volcanic Eruptions', icon: VolcanoIcon, active: false },
-  { id: 'floods', name: 'Floods', icon: FloodIcon, active: true },
-  { id: 'wildfires', name: 'Wildfires', icon: ForestFireIcon, active: true },
-  { id: 'droughts', name: 'Droughts', icon: DroughtIcon, active: true },
-  { id: 'avalanches', name: 'Avalanches', icon: AvalancheIcon, active: false },
-  { id: 'tornadoes', name: 'Tornadoes', icon: TornadoIcon, active: false },
-  { id: 'earthquakes', name: 'Earthquakes', icon: EarthquakeIcon, active: false },
+  { id: 'hurricanes', name: 'Tropical Cyclone', icon: HurricaneIcon, active: true },
+  { id: 'tsunamis', name: 'Tsunami', icon: TsunamiIcon, active: true },
+  { id: 'volcanoes', name: 'Volcano', icon: VolcanoIcon, active: false },
+  { id: 'floods', name: 'Flood', icon: FloodIcon, active: true },
+  { id: 'wildfires', name: 'Wildfire', icon: ForestFireIcon, active: true },
+  { id: 'droughts', name: 'Drought', icon: DroughtIcon, active: true },
+  { id: 'avalanches', name: 'Avalanche', icon: AvalancheIcon, active: false },
+  { id: 'tornadoes', name: 'Tornado', icon: TornadoIcon, active: false },
+  { id: 'earthquakes', name: 'Earthquake', icon: EarthquakeIcon, active: false },
 ];
+
 
 const DisasterToolbar = ({ onToggle }) => {
   const [disasters, setDisasters] = useState(initialDisasters);
