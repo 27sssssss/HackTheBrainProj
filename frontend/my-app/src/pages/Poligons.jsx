@@ -55,15 +55,19 @@ const DisasterGlobe = () => {
     }
   };
 
-  const mockAnswer = (question, callback) => {
-    setTimeout(() => {
-    if (question.toLowerCase().includes('china')) {
-      callback('A flood occurred in China on June 25, 2025, affecting Gansu and Guangxi provinces. Heavy rains led to river overflows, evacuations of over 80,000 people, and severe infrastructure damage.');
-    } 
-    if (question.toLowerCase().includes('greece')) {
-      callback("Forest fires have recently broken out in Greece, burning over 5,000 hectares of land near the Aegean coast. At least 2,000 residents have been evacuated as high temperatures and strong winds continue to fuel the spread of the flames.");
+  const sendToRealBot = async (message, callback) => {
+    try {
+      const res = await fetch("http://localhost:8000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
+      const data = await res.json();
+      callback(data.reply);
+    } catch (err) {
+      console.error("err:", err);
+      callback("error connecting to the server");
     }
-    }, 4000)
   };
   
   
@@ -146,7 +150,7 @@ const DisasterGlobe = () => {
       style={{position:'fixed',
         bottom:-130, right: 20, color:'#fff', borderRadius: 10, padding: 10, zIndex: 9999
       }}>
-        <ChatBot onSend={mockAnswer} />
+        <ChatBot onSend={sendToRealBot} />
       </div>
 
       <div

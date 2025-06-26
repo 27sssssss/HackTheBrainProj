@@ -34,29 +34,38 @@ class ChatMessage(BaseModel):
 
 @app.post("/chat")
 async def chat_endpoint(msg: ChatMessage):
+    gdacs_data = fetch_gdacs_events()
+    
+    if not gdacs_data:
+        summary = "Данные из GDACS недоступны."
+    else:
+        summary = "\n".join([
+            f"{e['event_type']} в {e.get('country', 'неизвестно')} ({e['date']}), "
+            f"магнитуда: {e.get('magnitude', '?')}, цвет: {e.get('color', '?')}"
+            for e in gdacs_data[:5]
+        ])
+
     response = client.chat.completions.create(
         model="mistralai/mistral-7b-instruct",
         messages=[
             {
                 "role": "system",
                 "content": (
-                    "Answer in 1 sentence\n"
                     "You are a climate disaster intelligence assistant with access to global disaster data "
                     "(e.g., GDACS alerts, NASA POWER climate indicators, NOAA historical trends).\n\n"
                     "Your role is to:\n"
-                    
-                    "1. Clearly summarize current natural disasters happening around the world.\n"
-                    "2. Identify regions at high risk of future disasters using indicators "
-                    "(e.g., rising temperature, seismic activity, rainfall patterns).\n"
-                    "3. If the data is insufficient to make a reliable prediction, say so.\n\n"
+                    "1. Clearly mention natural disasters happening around the region that mentioned.\n"
                     "Be accurate and clearly separate:\n"
                     "- Confirmed events\n"
                     "- Forecasts\n"
                     "- Uncertainty\n\n"
-                    "Mention sources or confidence where possible."
+                    "Make Your answer in 1-2 sentences for regular user"
                 )
             },
-            {"role": "user", "content": msg.message}
+            {
+                "role": "user",
+                "content": f"{msg.message}\n\nВот данные из GDACS:\n{summary}"
+            }
         ]
     )
 
