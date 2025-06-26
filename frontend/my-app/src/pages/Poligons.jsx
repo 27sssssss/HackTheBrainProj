@@ -8,6 +8,8 @@ import Menu from '../assets/menu123.svg'
 import Rain from '../assets/earthdisaster.svg'
 import BasicButton from '../components/Button.jsx'
 import Controller from '../components/Controller.jsx'
+import BurgerMenu from '../components/BurgerMenu.jsx';
+
 const disasterLocations = [
   { date: '2025-06-23T00:00:00', event_type: 'Wildfire', color: '#CC0000', severity: 'Orange', lat: 38.3927, lng: 26.1153 },
   { date: '2025-06-22T00:00:00', event_type: 'Drought', color: '#9933FF', severity: 'Orange', lat: -12.854, lng: -48.14 },
@@ -19,7 +21,8 @@ const disasterLocations = [
 
 
 const DisasterGlobe = () => {
-  const [button, setButton] = useState("False")
+  const [disastersList, setDisastersList] = useState(false);
+  const toggleDisasters = () => setDisastersList(prev => !prev)
 
   const globeRef = useRef();
 
@@ -62,13 +65,12 @@ const DisasterGlobe = () => {
           fontSize: '3rem',
           fontWeight: 'bold',
           zIndex: 10,
-          pointerEvents: 'none',
           display:'flex',
           flexDirection:'column',
           justifyContent:'space-evenly',
         }}
     >
-    <div style={{display:'flex', flexDirection:'row', justifyContent:'space-evenly'}}>
+    <div style={{display:'flex', flexDirection:'row', justifyContent:'space-evenly', alignItems:'center'}}>
       <BasicButton>
         <img
         src={Rain}
@@ -76,15 +78,18 @@ const DisasterGlobe = () => {
         style={{ width: '100%', height: '100%' }}
       />
       </BasicButton>
-      <BasicButton>
-        <img
-        src={Menu}
-        alt="Rain icon"
-        style={{ width: '100%', height: '100%' }}
-      />
-      </BasicButton>
+      <BurgerMenu open={disastersList} onClick={toggleDisasters} />
       </div>
-      
+      <div
+        style={{
+          transition: 'opacity 0.3s ease, transform 0.3s ease',
+          opacity: disastersList ? 1 : 0,
+          transform: disastersList ? 'translateY(0)' : 'translateY(-20px)',
+          pointerEvents: disastersList ? 'auto' : 'none' // чтобы не кликался в скрытом виде
+        }}
+      >
+    <Controller />
+</div>
     </div>
       <div ref={globeRef} style={{ width: '100%', height: '100%' }} />
     </div>

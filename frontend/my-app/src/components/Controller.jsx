@@ -9,17 +9,16 @@ import TornadoIcon from '../assets/Tornado.svg';
 import TsunamiIcon from '../assets/Tsunami.svg';
 import VolcanoIcon from '../assets/Volcano.svg';
 
-
 const initialDisasters = [
   { id: 'hurricanes', name: 'Hurricanes', icon: HurricaneIcon, active: true },
   { id: 'tsunamis', name: 'Tsunamis', icon: TsunamiIcon, active: true },
-  { id: 'volcanoes', name: 'Volcanic Eruptions', icon: '', active: false },
-  { id: 'floods', name: 'Floods', icon: '', active: true },
-  { id: 'wildfires', name: 'Wildfires', icon: '', active: true },
-  { id: 'droughts', name: 'Droughts', icon: '', active: true },
-  { id: 'avalanches', name: 'Avalanches', icon: '', active: false },
-  { id: 'tornadoes', name: 'Tornadoes', icon: '', active: false },
-  { id: 'earthquakes', name: 'Earthquakes', icon: '', active: false },
+  { id: 'volcanoes', name: 'Volcanic Eruptions', icon: VolcanoIcon, active: false },
+  { id: 'floods', name: 'Floods', icon: FloodIcon, active: true },
+  { id: 'wildfires', name: 'Wildfires', icon: ForestFireIcon, active: true },
+  { id: 'droughts', name: 'Droughts', icon: DroughtIcon, active: true },
+  { id: 'avalanches', name: 'Avalanches', icon: AvalancheIcon, active: false },
+  { id: 'tornadoes', name: 'Tornadoes', icon: TornadoIcon, active: false },
+  { id: 'earthquakes', name: 'Earthquakes', icon: EarthquakeIcon, active: false },
 ];
 
 const DisasterToolbar = ({ onToggle }) => {
@@ -36,9 +35,6 @@ const DisasterToolbar = ({ onToggle }) => {
   return (
     <div
       style={{
-        position: 'absolute',
-        top: 40,
-        left: 40,
         padding: 20,
         borderRadius: 20,
         backgroundColor: 'rgba(255,255,255,0.06)',
@@ -50,74 +46,84 @@ const DisasterToolbar = ({ onToggle }) => {
         zIndex: 20,
       }}
     >
-      {disasters.map((disaster) => (
-        <div
-          key={disaster.id}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            color: 'white',
-            fontSize: 14,
-            fontFamily: 'Open Sans, sans-serif'
-          }}
-        >
-          {/* toggle buttons for each */}
-          <label style={{ position: 'relative', width: 38, height: 20, display: 'inline-block' }}>
-            <input
-              type="checkbox"
-              checked={disaster.active}
-              onChange={() => handleToggle(disaster.id)}
+      {disasters.map((disaster) => {
+        const inputId = `toggle-${disaster.id}`;
+        return (
+          <div
+            key={disaster.id}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              color: 'white',
+              fontSize: 14,
+              fontFamily: 'Open Sans, sans-serif'
+            }}
+          >
+            {/* toggle switch */}
+            <label
+              htmlFor={inputId}
               style={{
-                opacity: 0,
-                width: 0,
-                height: 0
+                position: 'relative',
+                width: 38,
+                height: 20,
+                display: 'inline-block',
+                cursor: 'pointer'
               }}
-            />
-            <span
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: disaster.active ? '#2ecc71' : '#ccc',
-                borderRadius: 20,
-                transition: '0.3s'
-              }}
-            />
-            <span
-              style={{
-                position: 'absolute',
-                content: '""',
-                height: 16,
-                width: 16,
-                left: disaster.active ? 20 : 2,
-                bottom: 2,
-                backgroundColor: 'white',
-                borderRadius: '50%',
-                transition: '0.3s'
-              }}
-            />
-          </label>
+            >
+              <input
+                id={inputId}
+                type="checkbox"
+                checked={disaster.active}
+                onChange={() => handleToggle(disaster.id)}
+                style={{
+                  opacity: 0,
+                  width: 0,
+                  height: 0,
+                  position: 'absolute'
+                }}
+              />
+              <span
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: disaster.active ? '#2ecc71' : '#ccc',
+                  borderRadius: 20,
+                  transition: '0.3s'
+                }}
+              />
+              <span
+                style={{
+                  position: 'absolute',
+                  height: 16,
+                  width: 16,
+                  left: disaster.active ? 20 : 2,
+                  bottom: 2,
+                  backgroundColor: 'white',
+                  borderRadius: '50%',
+                  transition: '0.3s'
+                }}
+              />
+            </label>
 
-          {/* icons for each */}
-          {disaster.icon && (
+            {/* icon */}
             <img
               src={disaster.icon}
               alt=""
               style={{
                 width: 20,
                 height: 20,
-                filter: 'invert(1)'
               }}
             />
-          )}
 
-          {/* label */}
-          <span style={{ whiteSpace: 'nowrap' }}>{disaster.name}</span>
-        </div>
-      ))}
+            {/* label */}
+            <span style={{ whiteSpace: 'nowrap' }}>{disaster.name}</span>
+          </div>
+        );
+      })}
     </div>
   );
 };
