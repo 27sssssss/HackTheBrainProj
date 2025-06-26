@@ -37,6 +37,18 @@ def emdat_data():
 
     return JSONResponse(content=data)
 
+@app.get("/country_desc")
+def emdat_data():
+    current_dir = os.path.dirname(__file__)
+    path = os.path.join(current_dir,'utils', 'LSTM', 'data', 'countries.json')
+
+    with open(path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    return JSONResponse(content=data)
+
+
+
 @app.get("/nasa")
 def nasa_api():
     data = fetch_gdacs_events()
