@@ -8,7 +8,9 @@
 ### 🌍 Let me introduce Horizon — an AI-powered open-source platform designed to save lives
 
 <br>
+
 https://github.com/user-attachments/assets/a993361e-b00c-48a3-a043-a2fd0bc24b3c
+
 <br>
 
 ## 🛰️ Horizon: Predict. Prevent. Protect.
