@@ -3,25 +3,24 @@ from datetime import datetime, timedelta
 
 GDACS_API = "https://www.gdacs.org/gdacsapi/api/Events/geteventlist/latest"
 
-# Сопоставление типа события → название + hex-цвет
+
 EVENT_TYPE_MAP = {
-    "EQ": ("Earthquake", "#FF3333"),       # Красный
-    "TC": ("Tropical Cyclone", "#00CCCC"), # Бирюзовый
-    "FL": ("Flood", "#3366FF"),            # Синий
-    "VO": ("Volcano", "#FF9933"),          # Оранжевый
-    "DR": ("Drought", "#9933FF"),          # Фиолетовый
-    "WF": ("Wildfire", "#CC0000"),         # Тёмно-красный
-    "TS": ("Tsunami", "#3399FF"),          # Голубой
+    "EQ": ("Earthquake", "#FF3333"),       
+    "TC": ("Tropical Cyclone", "#00CCCC"), 
+    "FL": ("Flood", "#3366FF"),            
+    "VO": ("Volcano", "#FF9933"),         
+    "DR": ("Drought", "#9933FF"),          
+    "WF": ("Wildfire", "#CC0000"),         
+    "TS": ("Tsunami", "#3399FF"),          
 }
 
 def fetch_gdacs_events(limit_days=30):
-    print("🔍 Получаем события из GDACS...\n")
 
     response = requests.get(GDACS_API)
     data = response.json()
 
     if "features" not in data:
-        raise Exception("Нет данных в ответе GDACS")
+        raise Exception("empty response GDACS")
 
     events = []
     for item in data["features"]:
@@ -52,6 +51,6 @@ def fetch_gdacs_events(limit_days=30):
 
 if __name__ == "__main__":
     events = fetch_gdacs_events()
-    print("\n📋 List of Disasters:\n")
+    print("List of Disasters:\n")
     for e in events:
         print(e,',')
