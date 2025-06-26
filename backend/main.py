@@ -2,6 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from datetime import datetime
+import openai
+from dotenv import load_dotenv
+from pydantic import BaseModel
 import os
 import json
 
@@ -9,6 +12,10 @@ from utils.nasa_power_loader import fetch_nasa_power_data
 from extractor import get_data_disasters
 from utils.gdacs_data_loader import fetch_gdacs_events
 from utils.emdat import parse_emdat_excel_local
+
+load_dotenv()
+openai.api_key = os.getenv("API_KEY")
+openai.api_base = "https://openrouter.ai/api/v1"
 
 app = FastAPI()
 app.add_middleware(
@@ -18,6 +25,36 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class ChatMessage(BaseModel):
+    message: str
+
+@app.post("/chat")
+async def chat(msg: ChatMessage):
+    response = openai.ChatCompletion.create(
+        model = "mistralai/mistral-7b-instruct",
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a climate disaster intelligence assistant with access to global disaster data "
+                    "(e.g., GDACS alerts, NASA POWER climate indicators, NOAA historical trends).\n\n"
+                    "Your role is to:\n"
+                    "1. Clearly summarize current natural disasters happening around the world based on available data.\n"
+                    "2. Identify regions at high risk of future disasters using available indicators "
+                    "(e.g., rising temperature, seismic activity, rainfall patterns).\n"
+                    "3. If the data is insufficient to make a reliable prediction, say so explicitly.\n\n"
+                    "Your responses must be accurate, based on real data, and clearly distinguish between:\n"
+                    "- Confirmed current events\n"
+                    "- Forecasts based on data trends\n"
+                    "- Uncertainty where applicable\n\n"
+                    "Do not speculate. If there is a confidence score or source for the prediction, mention it."
+                )
+            },
+            {"role": "user", "content" : msg.message}
+        ]
+    )
+    return {"reply": response["choices"][0]["message"]["content"]}
 
 @app.get("/disasters")
 def read_disasters():
