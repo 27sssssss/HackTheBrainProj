@@ -62,7 +62,7 @@ const DisasterToolbar = ({ onToggle }) => {
             fontFamily: 'Open Sans, sans-serif'
           }}
         >
-          {/* Toggle */}
+          {/* toggle buttons for each */}
           <label style={{ position: 'relative', width: 38, height: 20, display: 'inline-block' }}>
             <input
               type="checkbox"
@@ -101,7 +101,7 @@ const DisasterToolbar = ({ onToggle }) => {
             />
           </label>
 
-          {/* Icon */}
+          {/* icons for each */}
           {disaster.icon && (
             <img
               src={disaster.icon}
@@ -114,7 +114,7 @@ const DisasterToolbar = ({ onToggle }) => {
             />
           )}
 
-          {/* Label */}
+          {/* label */}
           <span style={{ whiteSpace: 'nowrap' }}>{disaster.name}</span>
         </div>
       ))}
