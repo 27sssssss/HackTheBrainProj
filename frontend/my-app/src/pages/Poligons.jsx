@@ -60,8 +60,8 @@ const DisasterGlobe = () => {
     if (question.toLowerCase().includes('china')) {
       callback('A flood occurred in China on June 25, 2025, affecting Gansu and Guangxi provinces. Heavy rains led to river overflows, evacuations of over 80,000 people, and severe infrastructure damage.');
     } 
-    if (question.toLowerCase().includes('italy')) {
-      callback("There is dangerous chance of volcano eruptions in Campi Flegrei.");
+    if (question.toLowerCase().includes('greece')) {
+      callback("Forest fires have recently broken out in Greece, burning over 5,000 hectares of land near the Aegean coast. At least 2,000 residents have been evacuated as high temperatures and strong winds continue to fuel the spread of the flames.");
     }
     }, 4000)
   };
