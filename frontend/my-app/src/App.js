@@ -7,11 +7,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Basic></Basic>}>
-        </Route>
-        <Route path="/asd" element={<Main></Main>}>
-        </Route>
-        <Route path="/polig" element={<Poligon></Poligon>}></Route>
+        <Route path="/" element={<Poligon></Poligon>}></Route>
       </Routes>
     </BrowserRouter>
   );
