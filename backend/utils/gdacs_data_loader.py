@@ -18,7 +18,7 @@ def fetch_gdacs_events(limit_days=30):
 
     response = requests.get(GDACS_API)
     data = response.json()
-
+    
     if "features" not in data:
         raise Exception("empty response GDACS")
 
@@ -44,7 +44,8 @@ def fetch_gdacs_events(limit_days=30):
             "severity": prop.get("alertlevel", ""),
             "magnitude": prop.get("magnitude", 0),
             "lat": coords[1],
-            "lng": coords[0]
+            "lng": coords[0],
+            "name" :prop.get("name","")
         })
 
     return events
