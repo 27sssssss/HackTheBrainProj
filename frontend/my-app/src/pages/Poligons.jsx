@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import Globe from 'globe.gl';
+import CountryGeoJson from '../assets/geojson_files/ne_110m_admin_0_countries.geojson'
+import VolcanoJson from '../assets/geojson_files/volcano.json'
+import WorldPolygons from '../assets/geojson_files/world_polygons_only.geojson'
 
 const disasterLocations = [
   { date: '2025-06-23T00:00:00', event_type: 'Wildfire', color: '#CC0000', severity: 'Orange', lat: 38.3927, lng: 26.1153 },
@@ -7,7 +10,6 @@ const disasterLocations = [
   { date: '2025-06-20T03:00:00', event_type: 'Tropical Cyclone', color: '#00CCCC', severity: 'Red', lat: 18.0, lng: -100.8 },
   { date: '2025-06-17T09:45:00', event_type: 'Volcano', color: '#FF9933', severity: 'Orange', lat: -8.542, lng: 122.775 },
   { date: '2025-06-08T13:08:06', event_type: 'Earthquake', color: '#FF3333', severity: 'Orange', lat: 4.5125, lng: -73.1444 },
-  // ... и остальные
 ];
 
 const DisasterGlobe = () => {
@@ -25,7 +27,7 @@ const DisasterGlobe = () => {
       .labelColor(d => d.color)
       .labelsData(disasterLocations);
 
-    fetch('/ne_110m_admin_0_countries.geojson')
+    fetch(CountryGeoJson)
       .then(res => res.json())
       .then(countries => {
         world

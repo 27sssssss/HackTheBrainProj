@@ -90,7 +90,6 @@ const EarthScene = () => {
         scene.add(marker);
         markerMeshes.push(marker);
 
-        // HTML label
         const label = document.createElement('div');
         label.className = 'disaster-label';
         label.textContent = `${disaster.name} (${disaster.year})`;
