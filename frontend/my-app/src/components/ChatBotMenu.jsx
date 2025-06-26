@@ -6,19 +6,23 @@ const ChatBot = ({ onSend }) => {
     { role: 'bot', text: 'Hello! How can I help you today?' }
   ]);
 
-  const handleSend = () => {
+    const handleSend = () => {
     if (!input.trim()) return;
-    const userMessage = { role: 'user', text: input };
-    setMessages([...messages, userMessage]);
-    const loadOfMessage = {role: 'bot', text: 'Thinking...'};
-    setMessages(prev => [...prev, loadOfMessage]);
-    
-    onSend?.(input, (botResponse) => {
-      setMessages((prev) => [...prev, { role: 'bot', text: botResponse }]);
-    });
-    setInput('');
-  };
 
+    const userMessage = { role: 'user', text: input };
+    const loadingMessage = { role: 'bot', text: 'Thinking...' };
+
+    setMessages(prev => [...prev, userMessage, loadingMessage]);
+
+    onSend?.(input, (botResponse) => {
+        setMessages(prev => [
+        ...prev.filter(msg => msg.text !== 'Thinking...'),
+        { role: 'bot', text: botResponse }
+        ]);
+    });
+
+    setInput('');
+    };
   return (
     <div
       style={{
