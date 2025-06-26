@@ -4,10 +4,15 @@
 </p>
 
 ### 🌍 Let me introduce Horizon — an AI-powered open-source platform designed to save lives
+<div align="center">
+    <figure class="video_container">
+    <video controls="true" allowfullscreen="true">
+    <source src="content/demo.mp4" type="video/mp4">
+    </video>
+    </figure>
+</div>
 
 
-
-![](content/mainpage_exmp.png)
 
 
 
