@@ -13,6 +13,10 @@ https://github.com/user-attachments/assets/a993361e-b00c-48a3-a043-a2fd0bc24b3c
 
 <br>
 
+[![Watch the video](https://img.youtube.com/vi/0Zc7AWixsyc/hqdefault.jpg)](https://www.youtube.com/watch?v=0Zc7AWixsyc&ab_channel=SamVinnik)
+
+<br>
+
 ## 🛰️ Horizon: Predict. Prevent. Protect.
 
 **Horizon is an AI-powered, open-source platform that predicts climate disasters before they happen.**\
